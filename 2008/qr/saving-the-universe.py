@@ -42,18 +42,19 @@ def isInt(s):
         return False
 
 
-raw = inpu.split('\n')
+with open('A-small-practice.in', 'r') as fin:
+    raw = fin.read().splitlines()
 cases = raw.pop(0)
 
 totalSwitches = []
 for x in range(int(cases)):
-    print(raw)
     totalSwitches.append(0)
     searchEngines = {}
     for y in range(int(raw.pop(0))):
         searchEngines[raw.pop(0)] = 0
     y = 0
-    raw.pop(0)
+    if (raw.pop(0) == '0'):
+        continue
     while True:
         tmpSearch = copy.deepcopy(searchEngines)
         if len(raw) == 0 or isInt(raw[0]):
@@ -64,4 +65,7 @@ for x in range(int(cases)):
         totalSwitches[x] += 1
     totalSwitches[x] -= 1
 
+with open('Ab.out', 'w') as fout:
+    for i, x in enumerate(totalSwitches):
+        fout.write('Case #'+str(i+1)+': '+str(x)+'\n')
 print(totalSwitches)
