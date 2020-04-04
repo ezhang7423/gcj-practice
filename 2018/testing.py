@@ -1,12 +1,12 @@
 # Usage: `python local_testing_tool.py test_number`, where the argument
 # test_number is either 0 (Test Set 1), 1 (Test Set 2) or 2 (Test Set 3).
 
-
 from __future__ import print_function
-
-import itertools
-import random
 import sys
+import random
+import itertools
+fout = open('answers.txt', 'a')
+
 
 # Use raw_input in Python2.
 try:
@@ -131,8 +131,11 @@ class JudgeSingleCase(object):
                 # Number of queries we've received ends with 1
                 if random.randint(0, 1):
                     self.arr = Reverse(self.arr)
+                    fout.write('rev\n')
                 if random.randint(0, 1):
                     self.arr = BitFlip(self.arr)
+                    fout.write('fl\n')
+                fout.write(''.join(self.arr)+'\n')
             self.io.PrintOutput(self.arr[contestant_input - 1])
 
 
@@ -154,7 +157,7 @@ def GenerateInputs(b):
         cases.add(RandomBitString(b))
 
     cases = list(cases)
-    random.shuffle(cases)
+    # random.shuffle(cases)
     assert len(cases) == NUM_CASES
     assert all(len(case) == b for case in cases)
     assert all(all(c in '01' for c in case) for case in cases)
@@ -172,6 +175,7 @@ def JudgeAllCases(test_number, io):
 
     io.PrintOutput('{} {}'.format(NUM_CASES, b))
     for case_number in range(NUM_CASES):
+        fout.write('case ' + str(case_number+1) + '\n')
         single_case = JudgeSingleCase(io, inputs[case_number])
         err = single_case.Judge()
         if err is not None:

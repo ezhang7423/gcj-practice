@@ -1,7 +1,10 @@
+fout = open('outputs.txt', 'a')
+
+
 def sym(f, b):
-    if f == list(reversed(back)):
+    if f == list(reversed(b)):
         return 'sym'
-    elif f == ['1' if x == '0' else '0' for x in ''.join(list(reversed(back)))]:
+    elif f == [1 if x == 0 else 0 for x in list(reversed(b))]:
         return 'opp'
     else:
         return 'reg'
@@ -14,20 +17,57 @@ def firstBitdiff(f, b):
             return i
 
 
-def findSwitch(f, b):
+def firstBitSim(f, b):
+    l = len(b) - 1
+    for i, x in enumerate(f):
+        if x == b[l - i]:
+            return i
 
+
+def findSwitch(f, b):
     mode = sym(f, b)
     print('1')
     new1 = int(input())
     if mode == 'sym':
-
-    elif mode == 'opp':
-
-    else:
-        i = firstBitdiff(f, b)
-        print(str(i + 1))
-        newD = int(input())
+        print('1')
+        new1 = int(input())
+        fout.write('sym ')
         if f[0] == b[len(b)-1]:
+            tr = ['fl', 'ne']
+        else:
+            tr = ['ne', 'fl']
+        if f[0] != new1:
+            fout.write(str(new1))
+            fout.write(' ' + tr[0]+'\n')
+            return tr[0]
+        else:
+            fout.write(str(new1))
+            fout.write(' ' + tr[1]+'\n')
+
+            return tr[1]
+    elif mode == 'opp':
+        print('1')
+        new1 = int(input())
+        fout.write('opp ')
+        if f[0] == b[len(b)-1]:
+            tr = ['ne', 'fl']
+        else:
+            tr = ['fl', 'ne']
+        if f[0] != new1:
+            fout.write(str(new1))
+            fout.write(' ' + tr[0]+'\n')
+
+            return tr[0]
+        else:
+            fout.write(str(new1))
+            fout.write(' ' + tr[1]+'\n')
+
+            return tr[1]
+    else:
+        if f[0] == b[len(b)-1]:
+            i = firstBitdiff(f, b)
+            print(str(i + 1))
+            newD = int(input())
             if f[0] != new1:
                 # possibilites left are both and flip
                 if newD == f[i]:
@@ -35,14 +75,30 @@ def findSwitch(f, b):
                 else:
                     return 'fl'
             else:
-
-    return 'fl'
+                # possibilites are reverse and neither
+                if newD == f[i]:
+                    return 'ne'
+                else:
+                    return 'rev'
+        else:
+            i = firstBitSim(f, b)
+            print(str(i + 1))
+            newD = int(input())
+            if f[0] != new1:
+                if newD == f[i]:
+                    return 'rev'
+                else:
+                    return 'fl'
+            else:
+                # both or neither
+                if newD == f[i]:
+                    return 'ne'
+                else:
+                    return 'bo'
 
 
 def reverse(front, back):
-    front = list(reversed(front))
-    back = list(reversed(back))
-    return [back, front]
+    return [back[::-1], front[::-1]]
 
 
 def flip(front, back):
@@ -66,6 +122,12 @@ def findNew(front, back, bitlen):
     return (front, back, False)
 
 
+def writeans(front, back, bitlen):
+    sol = [str(x) for x in front] + [' ' for x in range(bitlen -
+                                                        2 * len(front))] + [str(x) for x in back]
+    fout.write(''.join(sol)+'\n')
+
+
 def solve(bitlen):
     front = []
     back = []
@@ -75,28 +137,35 @@ def solve(bitlen):
     for x in range(5):
         print(bitlen - x)
         back.insert(0, int(input()))
+    writeans(front, back, bitlen)
     while (len(front + back) != bitlen):
         # do some check if over
         switch = findSwitch(front, back)
+        if switch != 'ne':
+            fout.write(switch+'\n')
         if switch == 'fl':
             front, back = flip(front, back)
-            front, back = findNew(front, back, bitlen)
+            front, back, done = findNew(front, back, bitlen)
         elif switch == 'rev':
             front, back = reverse(front, back)
-            front, back = findNew(front, back, bitlen)
+            front, back, done = findNew(front, back, bitlen)
         elif switch == 'bo':
             front, back = flip(front, back)
             front, back = reverse(front, back)
-            front, back = findNew(front, back, bitlen)
+            front, back, done = findNew(front, back, bitlen)
         elif switch == 'ne':
-            front, back = findNew(front, back, bitlen)
-
+            front, back, done = findNew(front, back, bitlen)
+        writeans(front, back, bitlen)
+        if done:
+            break
     sol = [str(x) for x in front + back]
     print(''.join(sol))
 
 
 t, b = [int(a) for a in input().split(' ')]
 for i in range(1, t+1):
+    fout.write('case ' + str(i) + '\n')
     solve(b)
     if (input() != 'Y'):
+        fout.close()
         break

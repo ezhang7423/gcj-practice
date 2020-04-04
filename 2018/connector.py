@@ -30,6 +30,7 @@
 #   to overlap with each other).
 
 from __future__ import print_function
+import os
 import sys
 import subprocess
 import threading
@@ -81,12 +82,16 @@ class SubprocessThread(threading.Thread):
             sys.stderr.flush()
 
 
-assert sys.argv.count("--") == 1, (
-    "There should be exactly one instance of '--' in the command line.")
-sep_index = sys.argv.index("--")
-judge_args = sys.argv[1:sep_index]
-sol_args = sys.argv[sep_index + 1:]
+# assert sys.argv.count("--") == 1, (
+#     "There should be exactly one instance of '--' in the command line.")
+# sep_index = sys.argv.index("--")
+# judge_args = sys.argv[1:sep_index]
+# sol_args = sys.argv[sep_index + 1:]
 
+# os.chdir('/home/ete/github/gcj-practice/2018')
+# os.listdir()
+judge_args = ['python3', 'testing.py', '1']
+sol_args = ['python3', 'q4.py']
 t_sol = SubprocessThread(sol_args, stderr_prefix="  sol: ")
 t_judge = SubprocessThread(
     judge_args,
