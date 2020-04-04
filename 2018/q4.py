@@ -1,4 +1,3 @@
-fout = open('outputs.txt', 'a')
 
 
 def sym(f, b):
@@ -31,36 +30,26 @@ def findSwitch(f, b):
     if mode == 'sym':
         print('1')
         new1 = int(input())
-        fout.write('sym ')
         if f[0] == b[len(b)-1]:
             tr = ['fl', 'ne']
         else:
             tr = ['ne', 'fl']
         if f[0] != new1:
-            fout.write(str(new1))
-            fout.write(' ' + tr[0]+'\n')
             return tr[0]
         else:
-            fout.write(str(new1))
-            fout.write(' ' + tr[1]+'\n')
 
             return tr[1]
     elif mode == 'opp':
         print('1')
         new1 = int(input())
-        fout.write('opp ')
         if f[0] == b[len(b)-1]:
             tr = ['ne', 'fl']
         else:
             tr = ['fl', 'ne']
         if f[0] != new1:
-            fout.write(str(new1))
-            fout.write(' ' + tr[0]+'\n')
 
             return tr[0]
         else:
-            fout.write(str(new1))
-            fout.write(' ' + tr[1]+'\n')
 
             return tr[1]
     else:
@@ -125,7 +114,6 @@ def findNew(front, back, bitlen):
 def writeans(front, back, bitlen):
     sol = [str(x) for x in front] + [' ' for x in range(bitlen -
                                                         2 * len(front))] + [str(x) for x in back]
-    fout.write(''.join(sol)+'\n')
 
 
 def solve(bitlen):
@@ -142,7 +130,6 @@ def solve(bitlen):
         # do some check if over
         switch = findSwitch(front, back)
         if switch != 'ne':
-            fout.write(switch+'\n')
         if switch == 'fl':
             front, back = flip(front, back)
             front, back, done = findNew(front, back, bitlen)
@@ -164,8 +151,6 @@ def solve(bitlen):
 
 t, b = [int(a) for a in input().split(' ')]
 for i in range(1, t+1):
-    fout.write('case ' + str(i) + '\n')
     solve(b)
     if (input() != 'Y'):
-        fout.close()
         break
