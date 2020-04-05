@@ -13,8 +13,7 @@ vector<int> confusion()
 int main()
 {
 
-    vector<int> a = confusion();
-    cout
-        << a[4] << endl;
+    int n = 1;
+    vector<int> result(1 - n, 0);
     return 0;
 }

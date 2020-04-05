@@ -129,7 +129,6 @@ def solve(bitlen):
     while (len(front + back) != bitlen):
         # do some check if over
         switch = findSwitch(front, back)
-        if switch != 'ne':
         if switch == 'fl':
             front, back = flip(front, back)
             front, back, done = findNew(front, back, bitlen)

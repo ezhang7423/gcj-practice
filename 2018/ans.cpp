@@ -96,7 +96,8 @@ vector<int> getPoss(di arr, int n, int i, int required_diag)
         return all_avails;
     }
     int c = 0;
-    vector<int> result(1 - n, 0);
+    vector<int> result(n - 1, 0);
+
     int *current_col = get_col(arr, n, i);
     int *current_row = get_row(arr, n, i);
     bool last_el = n * n - 1 == i;
@@ -142,7 +143,9 @@ int **eval(int n, int required_diag)
                     return 0;
                 }
             }
-            pos[current_index].erase(pos[current_index].begin());
+            cout << pos[current_index].size() << endl;
+            pos[current_index]
+                .erase(pos[current_index].begin());
         }
         val[current_index] = pos[current_index][0];
     }

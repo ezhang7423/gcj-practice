@@ -1,0 +1,27 @@
+n=int(input())
+string_list=[input() for i in range(n)]
+k=1
+for string in string_list:
+    num_I=0
+    num_i=0
+    count=0
+    for i in string:
+        if ( i=="I"):
+            num_I+=1
+        if (i=="i"):
+            num_i+=1
+        
+        if (i=="o" ):
+            if num_i>0:
+                num_i-=1
+            else:
+                num_I-=1
+        if ( i=="O"):
+            if num_I>0:
+                num_I-=1
+                count+=1
+            else:
+                num_i-=1
+    print('Case #{0}: {1}'.format(k, count))
+    
+    k+=1
