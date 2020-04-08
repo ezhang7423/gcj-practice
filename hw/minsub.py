@@ -1,15 +1,20 @@
+import math
+
+
 class Solution:
     def maxSubArray(self, nums: [int]) -> int:
-        c, tmpC = [0, 0]
+        a, c = [-math.inf, 0]
         for num in nums:
-            if c + num > 0:
+            if c <= 0:
+                c = num
+            else:
                 c += num
-            tmpC += num
-            if tmpC > c:
-                c = tmpC
-        return c
+            if c > a:
+                a = c
+
+        return a
 
 
 x = Solution()
 print(x.maxSubArray(
-    [-2, 1, -3, 4, -1, 2, 1, -5, 4]))
+    [1, -1, 20]))
