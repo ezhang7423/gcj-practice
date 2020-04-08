@@ -5,6 +5,7 @@ class Solution:
     def maxSubArray(self, nums: [int]) -> int:
         a, c = [-math.inf, 0]
         for num in nums:
+            num = -num
             if c <= 0:
                 c = num
             else:
@@ -12,9 +13,9 @@ class Solution:
             if c > a:
                 a = c
 
-        return a
+        return -a
 
 
 x = Solution()
 print(x.maxSubArray(
-    [1, -1, 20]))
+    [1, -1, -20]))
